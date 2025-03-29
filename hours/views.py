@@ -10,12 +10,40 @@ from django.db.models import Sum
 
 # CRUD для проектов
 class ProjectListCreateView(generics.ListCreateAPIView):
+    """
+       Представление для списка и создания проектов.
+
+       Это представление обрабатывает запросы на получение списка всех проектов
+       и создание нового проекта. Доступ к этому представлению разрешен только
+       аутентифицированным пользователям.
+
+       Атрибуты:
+           queryset (QuerySet): Запрос для модели Project, который возвращает все проекты.
+           serializer_class (Serializer): Класс сериализатора, используемый для валидации
+               и сериализации данных проекта.
+           permission_classes (list): Список классов разрешений, разрешающий доступ
+               только аутентифицированным пользователям.
+       """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
 class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+        Представление для получения, обновления и удаления проекта.
+
+        Это представление обрабатывает запросы для получения, обновления
+        или удаления конкретного проекта по его идентификатору. Доступ к этому
+        представлению разрешен только аутентифицированным пользователям.
+
+        Атрибуты:
+            queryset (QuerySet): Запрос для модели Project, который возвращает все проекты.
+            serializer_class (Serializer): Класс сериализатора, используемый для валидации
+                и сериализации данных проекта.
+            permission_classes (list): Список классов разрешений, разрешающий доступ
+                только аутентифицированным пользователям.
+        """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -23,6 +51,13 @@ class ProjectDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 # CRUD для списанного времени
 class AddSpentTimeView(APIView):
+    """
+        Представление для добавления затраченного времени на проект.
+
+        Это представление обрабатывает запросы на добавление записей о затраченном времени
+        для конкретного проекта. Доступ к этому представлению разрешен только
+        аутентифицированным пользователям.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -67,6 +102,13 @@ class AddSpentTimeView(APIView):
 
 # Эндпоинт для отчета
 class ReportView(APIView):
+    """
+        Представление для получения отчета о затраченном времени по проекту.
+
+        Это представление обрабатывает запросы на получение отчета о затраченном времени
+        для конкретного проекта в заданном диапазоне дат. Доступ к этому представлению
+        разрешен только аутентифицированным пользователям с правами администратора или модератора.
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, project_id):
